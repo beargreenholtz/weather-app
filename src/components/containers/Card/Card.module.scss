@@ -1,0 +1,72 @@
+.container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 350px;
+	width: 250px;
+	border-radius: 32px;
+	background-color: rgb(39, 39, 39);
+	color: white;
+	position: relative;
+
+
+	&__title {
+		display: inline-block;
+		overflow: hidden;
+		font-size: 48px;
+		max-width: 200px;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		height: auto;
+		background-color: transparent;
+	}
+
+	&__tooltip {
+		position: absolute;
+		background-color: #555;
+		color: #fff;
+		text-align: center;
+		margin-left: 0;
+		border-radius: 6px;
+		padding: 5px;
+		font-size: 20px;
+		z-index: 1;
+		transition: opacity 0.3s;
+		top: 20px;
+	}
+
+
+	&__title {
+		font-size: 48px;
+	}
+
+
+
+	&__celsius {
+		font-size: 32px;
+		font-weight: 900;
+	}
+
+	&__svg {
+		height: 100px;
+		width: 100px;
+		fill: white;
+	}
+
+	&__description {
+		font-size: 16px;
+		color: rgb(206, 206, 206);
+	}
+
+	&__time {
+		font-size: 24px;
+	}
+
+	&--night {
+		background-color: black;
+
+	}
+
+
+}

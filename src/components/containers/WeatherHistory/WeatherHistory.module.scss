@@ -1,0 +1,17 @@
+.container {
+	display: flex;
+	overflow: auto;
+	height: 200px;
+	align-items: flex-start;
+	flex-wrap: wrap;
+
+	&__description {
+		margin-left: 20px;
+	}
+
+	&__errorDate {
+		position: absolute;
+		color: red;
+		margin: 50px 0 0 200px;
+	}
+}
