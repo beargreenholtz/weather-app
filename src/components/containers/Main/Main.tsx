@@ -1,30 +1,74 @@
-// import Card from '../Card/Card';
 import { useState } from 'react';
+import axios from 'axios';
+
+import { ICardsArray } from '../../../interfaces/card';
 import CardContainer from '../CardsContainer/CardContainer';
 import CityForm from '../CityForm/CityForm';
-import axios from 'axios';
+
 import './Main.scss';
 
 const Main = () => {
-  const [cards, setCards] = useState([]);
+  const [cards, setCards] = useState<ICardsArray[]>([]);
 
-  const addCity = async (city) => {
-    const place = await axios
+  const fetchMaxDate = (days: number) => {
+    const currentDate = new Date();
+
+    currentDate.setDate(currentDate.getDate() - days);
+
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const day = String(currentDate.getDate()).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
+  };
+
+  const getCoordinates = async (city) => {
+    const response = await axios
       .get(
         `https://geocoding-api.open-meteo.com/v1/search?name=${city}&count=10&language=en&format=json`
       )
       .then((response) => response.data.results[0]);
 
-    const celsius = await axios
-      .get(
-        `https://api.open-meteo.com/v1/forecast?latitude=${place.latitude}&longitude=${place.longitude}&daily=temperature_2m_max&timezone=GMT`
-      )
-      .then((response) => response.data.daily.temperature_2m_max[0]);
-
-    !cards.includes(city) &&
-      setCards((prevCards) => [...prevCards, [place, celsius, place.timezone]]);
+    return response;
   };
-  console.log(cards);
+
+  const getCityData = async (coordinates) => {
+    const endDate = fetchMaxDate(10);
+    const startDate = fetchMaxDate(40);
+
+    const response = await axios
+      .get(
+        `https://archive-api.open-meteo.com/v1/archive?latitude=${coordinates.latitude}&longitude=${coordinates.longitude}&start_date=${startDate}&end_date=${endDate}&daily=temperature_2m_mean&timezone=auto`
+      )
+      .then((response) => response)
+      .catch((error) => {
+        console.error(error);
+      });
+
+    return response;
+  };
+
+  const addCity = async (city: string) => {
+    const coordinates = await getCoordinates(city);
+
+    const citydata = await getCityData(coordinates);
+
+    if (!citydata) {
+      return;
+    }
+
+    setCards((prevCards) => [
+      ...prevCards,
+      {
+        coordinates,
+        cityData: {
+          dates: citydata.data.daily.time,
+          temperature: citydata.data.daily.temperature_2m_mean,
+        },
+      },
+    ]);
+  };
+
   return (
     <>
       <CityForm addCity={addCity} />

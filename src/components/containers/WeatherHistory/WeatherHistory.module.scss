@@ -1,17 +1,9 @@
-.container {
+.list {
 	display: flex;
 	overflow: auto;
-	height: 200px;
-	align-items: flex-start;
-	flex-wrap: wrap;
+	height: 100px;
 
-	&__description {
-		margin-left: 20px;
-	}
-
-	&__errorDate {
-		position: absolute;
-		color: red;
-		margin: 50px 0 0 200px;
+	&__desc {
+		margin-right: 20px;
 	}
 }

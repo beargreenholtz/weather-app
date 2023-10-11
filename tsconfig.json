@@ -5,6 +5,8 @@
 		"lib": ["dom", "dom.iterable", "esnext"],
 		"baseUrl": "./",
 		"jsx": "preserve",
+		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
 		"paths": {
 			"@/interfaces/*": ["src/interfaces/*"],
 			"@/ui/*": ["src/components/ui/*"],
@@ -20,9 +22,9 @@
 			"@/hooks/*": ["src/hooks/*"],
 			"@/models/*": ["src/models/*"],
 			"@/styles/*": ["src/styles/*"],
-			"@/types/*": ["src/types/*"]
+			"@/types/*": ["src/types/*"],
 		},
-		"typeRoots": ["./@types", "./node_modules/@types"]
+		"typeRoots": ["./@types", "./node_modules/@types"],
 	},
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

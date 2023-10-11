@@ -1,39 +1,46 @@
 import { useState, useEffect } from 'react';
 
-import Svg from '../../ui/Svg/Svg';
-import classes from './Card.module.scss';
-import Modal from '../../ui/Modal/Modal';
-import useModal from '../../../utils/useModal';
 import WeatherHistory from '../WeatherHistory/WeatherHistory';
+import useModal from '../../../utils/useModal';
+import Svg from '../../ui/Svg/Svg';
+import Modal from '../../ui/Modal/Modal';
 
-const Card = (props) => {
+import classes from './Card.module.scss';
+import { ICardsArray } from '../../../interfaces/card';
+
+interface IProps {
+  readonly city: ICardsArray;
+}
+
+const Card: React.FC<IProps> = (props) => {
   const [time, setTime] = useState<string>();
   const [isToolTipShow, setIsIsToolTipShow] = useState(false);
   const [isShowingModal, toggleModal] = useModal();
   const isNight = time ? +time.slice(0, 2) > 23 || +time.slice(0, 2) < 8 : true;
 
   const toolTipHandler = (isActive: boolean) => {
-    if (props.city[0].name.length > 7) {
+    if (props.city.coordinates.name.length > 7) {
       setIsIsToolTipShow(() => isActive);
     }
   };
 
-  const temperature = props.city[1];
+  const temperatureToday = props.city[1];
+
   const icon =
-    temperature > 25
+    temperatureToday > 25
       ? 'sun'
-      : temperature > 15
+      : temperatureToday > 15
       ? 'sunWithClouds'
-      : temperature > 5
+      : temperatureToday > 5
       ? 'clouds'
       : 'snowMan';
 
   const description =
-    temperature > 25
+    temperatureToday > 25
       ? 'Hot'
-      : temperature > 15
+      : temperatureToday > 15
       ? 'Not Very Hot'
-      : temperature > 5
+      : temperatureToday > 5
       ? 'Clouds and Cold'
       : 'Very Very Cold';
 
@@ -72,7 +79,7 @@ const Card = (props) => {
       >
         {isToolTipShow && (
           <span className={classes['container__tooltip']}>
-            {props.city[0].name}
+            {props.city.coordinates.name}
           </span>
         )}
         <p
@@ -80,11 +87,11 @@ const Card = (props) => {
           onMouseLeave={() => toolTipHandler(false)}
           className={classes['container__title']}
         >
-          {props.city[0].name}
+          {props.city.coordinates.name}
         </p>
 
         <span className={classes['container__celsius']}>
-          {props.city[1] + '°C'}
+          {props.city.cityData.temperature[0] + '°C'}
         </span>
         <Svg name={icon} className={classes['container__svg']} />
         <p className={classes['container__description']}>{description}</p>
