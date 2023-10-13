@@ -1,27 +1,16 @@
 import { useState } from 'react';
 import axios from 'axios';
 
-import { ICardsArray } from '../../../interfaces/card';
+import { ICard } from '../../../interfaces/card';
 import CardContainer from '../CardsContainer/CardContainer';
 import CityForm from '../CityForm/CityForm';
+import { getPastDate } from '../../../utils/getPastDate';
 
 import './Main.scss';
 import React from 'react';
 
 const Main = () => {
-  const [cardsState, setCardsState] = useState<ICardsArray[]>([]);
-
-  const getPastDate = (days: number) => {
-    const currentDate = new Date();
-
-    currentDate.setDate(currentDate.getDate() - days);
-
-    const year = currentDate.getFullYear();
-    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-    const day = String(currentDate.getDate()).padStart(2, '0');
-
-    return `${year}-${month}-${day}`;
-  };
+  const [cardsState, setCardsState] = useState<ICard[]>([]);
 
   const getCoordinates = async (city) => {
     const response = await axios

@@ -6,11 +6,11 @@ import Svg from '../../ui/Svg/Svg';
 import Modal from '../../ui/Modal/Modal';
 
 import classes from './Card.module.scss';
-import { ICardsArray } from '../../../interfaces/card';
+import { ICard } from '../../../interfaces/card';
 import React from 'react';
 
 interface IProps {
-  readonly city: ICardsArray;
+  readonly city: ICard;
 }
 
 const Card: React.FC<IProps> = (props) => {

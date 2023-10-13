@@ -1,12 +1,12 @@
 import { useState } from 'react';
 
-import { ICardsArray } from '@/interfaces/card';
+import { ICard } from '@/interfaces/card';
 
 import classes from './WeatherHistory.module.scss';
 import React from 'react';
 
 interface IProps {
-  readonly city: ICardsArray;
+  readonly city: ICard;
 }
 
 const WeatherHistory: React.FC<IProps> = (props) => {
