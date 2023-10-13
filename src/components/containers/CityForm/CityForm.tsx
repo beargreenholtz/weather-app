@@ -1,7 +1,8 @@
-import { useRef, useState } from 'react';
-import classes from './CityForm.module.scss';
+import React, { useRef, useState } from 'react';
+
 import places from '../../../utils/places';
-import React from 'react';
+
+import classes from './CityForm.module.scss';
 
 interface IProps {
   readonly addCity: (string) => void;

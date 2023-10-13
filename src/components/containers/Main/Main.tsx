@@ -1,13 +1,10 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 
 import { ICard } from '../../../interfaces/card';
+import { getPastDate } from '../../../utils/getPastDate';
 import CardContainer from '../CardsContainer/CardContainer';
 import CityForm from '../CityForm/CityForm';
-import { getPastDate } from '../../../utils/getPastDate';
-
-import './Main.scss';
-import React from 'react';
 
 const Main = () => {
   const [cardsState, setCardsState] = useState<ICard[]>([]);

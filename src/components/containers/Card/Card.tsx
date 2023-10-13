@@ -1,13 +1,12 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
+import { ICard } from '../../../interfaces/card';
 import WeatherHistory from '../WeatherHistory/WeatherHistory';
 import useModal from '../../../utils/useModal';
 import Svg from '../../ui/Svg/Svg';
 import Modal from '../../ui/Modal/Modal';
 
 import classes from './Card.module.scss';
-import { ICard } from '../../../interfaces/card';
-import React from 'react';
 
 interface IProps {
   readonly city: ICard;

@@ -3,7 +3,14 @@ import icons from '../../../assets/icons';
 
 import classes from './Svg.module.scss';
 
-const Svg = (props) => {
+interface IProps {
+  readonly className?: string;
+  readonly style?: React.CSSProperties;
+  readonly name: string;
+  readonly onClick?: (event: React.MouseEvent<SVGElement>) => void;
+}
+
+const Svg: React.FC<IProps> = (props) => {
   const svgClasses = concatDiverseClasses(
     classes['container'],
     props.className

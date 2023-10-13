@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import * as ReactDOM from 'react-dom';
+
 import classes from './Modal.module.scss';
 
 interface IProps {

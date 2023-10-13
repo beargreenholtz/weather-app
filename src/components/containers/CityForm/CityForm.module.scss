@@ -1,5 +1,3 @@
-@use 'sass:map';
-
 .container {
 	display: flex;
 	flex-direction: row;
@@ -8,8 +6,6 @@
 		width: 300px;
 		font-size: 38px;
 		border-bottom: solid 2px black;
-
-
 	}
 
 	&__button {

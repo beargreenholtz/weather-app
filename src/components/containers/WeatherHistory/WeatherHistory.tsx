@@ -1,9 +1,8 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import { ICard } from '@/interfaces/card';
 
 import classes from './WeatherHistory.module.scss';
-import React from 'react';
 
 interface IProps {
   readonly city: ICard;
