@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { ICard } from '@/interfaces/card';
+import { monthAverageCelcius } from '../../../utils/monthCaculateDegree';
 
 import classes from './WeatherHistory.module.scss';
 
@@ -12,17 +13,7 @@ const WeatherHistory: React.FC<IProps> = (props) => {
   const [selectedTimeState, setSelectedTimeState] = useState('monthly');
   const halfMonthDegreeArray = props.city.cityData.dates.slice(0, 14);
   const halfMonthDatesArray = props.city.cityData.dates.slice(0, 14);
-
-  const monthAverageCelcius = () => {
-    const monthDegreeArray = props.city.cityData.temperature;
-
-    const sum = monthDegreeArray.reduce(
-      (accumulator, currentValue) => accumulator + currentValue,
-      0
-    );
-
-    return (sum / monthDegreeArray.length).toFixed(2);
-  };
+  const monthDegreesArray = props.city.cityData.temperature;
 
   return (
     <div>
@@ -36,7 +27,7 @@ const WeatherHistory: React.FC<IProps> = (props) => {
         <p>Today - {props.city.cityData.dates[0]}</p>
       )}
       {selectedTimeState === 'monthly' && (
-        <p>The monthly average is - {monthAverageCelcius()}</p>
+        <p>The monthly average is - {monthAverageCelcius(monthDegreesArray)}</p>
       )}
       {selectedTimeState === 'twoweeks' && (
         <div>

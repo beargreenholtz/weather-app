@@ -24,7 +24,7 @@ const CityForm: React.FC<IProps> = (props) => {
     }
   };
 
-  const addCardHandler = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmiteAddCard = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     props.addCity(inputState);
     setInputState(() => '');
@@ -75,7 +75,7 @@ const CityForm: React.FC<IProps> = (props) => {
   return (
     <>
       <form
-        onSubmit={(e) => addCardHandler(e)}
+        onSubmit={(e) => handleSubmiteAddCard(e)}
         className={classes['container']}
       >
         <input

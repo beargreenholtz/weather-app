@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-
 import { ICard } from '../../../interfaces/card';
+
 import WeatherHistory from '../WeatherHistory/WeatherHistory';
 import useModal from '../../../utils/useModal';
 import Svg from '../../ui/Svg/Svg';
