@@ -9,7 +9,7 @@ interface ICityData {
   temperature: number[];
 }
 
-export interface ICardsArray {
+export interface ICard {
   coordinates: ICoordinates;
   cityData: ICityData;
 }

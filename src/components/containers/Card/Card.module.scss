@@ -1,5 +1,6 @@
 .container {
 	display: flex;
+	margin-bottom: 24px;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
@@ -9,7 +10,6 @@
 	background-color: rgb(39, 39, 39);
 	color: white;
 	position: relative;
-
 
 	&__title {
 		display: inline-block;
@@ -36,12 +36,9 @@
 		top: 20px;
 	}
 
-
 	&__title {
 		font-size: 48px;
 	}
-
-
 
 	&__celsius {
 		font-size: 32px;
@@ -67,6 +64,4 @@
 		background-color: black;
 
 	}
-
-
 }
