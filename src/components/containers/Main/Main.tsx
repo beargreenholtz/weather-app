@@ -6,11 +6,12 @@ import CardContainer from '../CardsContainer/CardContainer';
 import CityForm from '../CityForm/CityForm';
 
 import './Main.scss';
+import React from 'react';
 
 const Main = () => {
-  const [cards, setCards] = useState<ICardsArray[]>([]);
+  const [cardsState, setCardsState] = useState<ICardsArray[]>([]);
 
-  const fetchMaxDate = (days: number) => {
+  const getPastDate = (days: number) => {
     const currentDate = new Date();
 
     currentDate.setDate(currentDate.getDate() - days);
@@ -33,8 +34,8 @@ const Main = () => {
   };
 
   const getCityData = async (coordinates) => {
-    const endDate = fetchMaxDate(10);
-    const startDate = fetchMaxDate(40);
+    const endDate = getPastDate(10);
+    const startDate = getPastDate(40);
 
     const response = await axios
       .get(
@@ -48,7 +49,7 @@ const Main = () => {
     return response;
   };
 
-  const addCity = async (city: string) => {
+  const addCityDataToCards = async (city: string) => {
     const coordinates = await getCoordinates(city);
 
     const citydata = await getCityData(coordinates);
@@ -57,7 +58,7 @@ const Main = () => {
       return;
     }
 
-    setCards((prevCards) => [
+    setCardsState((prevCards) => [
       ...prevCards,
       {
         coordinates,
@@ -71,10 +72,12 @@ const Main = () => {
 
   return (
     <>
-      <CityForm addCity={addCity} />
-      <CardContainer cards={cards} />
+      <CityForm addCity={addCityDataToCards} />
+      <CardContainer cards={cardsState} />
     </>
   );
 };
 
-export default Main;
+const MemoizedMain = React.memo(Main);
+
+export default MemoizedMain;

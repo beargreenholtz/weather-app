@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import classes from './CityForm.module.scss';
 import places from '../../../utils/places';
+import React from 'react';
 
 interface IProps {
   readonly addCity: (string) => void;
@@ -8,21 +9,17 @@ interface IProps {
 
 const CityForm: React.FC<IProps> = (props) => {
   const paragraphRef = useRef(null);
-  const sortedArray = places.sort();
 
   const [inputState, setInputState] = useState('');
   const [autoCompleteVisibleState, setAutoCompleteVisibleState] =
     useState(false);
-  const [selected, setSelected] = useState<number>(0);
+  const [selectedState, setSelectedState] = useState<number>(0);
   const [autoCompletePlaceState, setAutoCompletePlaceState] =
-    useState<string[]>(sortedArray);
+    useState<string[]>(places);
 
-  const onBlurHandler = (e: React.FocusEvent<HTMLElement>) => {
+  const handleBlur = (e: React.FocusEvent<HTMLElement>) => {
     if (e.relatedTarget === null) {
       setAutoCompleteVisibleState(false);
-      setSelected(() => 0);
-    } else {
-      return;
     }
   };
 
@@ -32,37 +29,45 @@ const CityForm: React.FC<IProps> = (props) => {
     setInputState(() => '');
   };
 
-  const textHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputState(() => e.target.value);
-    const filteredAndSortedPlaces = places
-      .filter((place) =>
-        place.toLowerCase().startsWith(e.target.value.toLowerCase())
-      )
+  const updateAutocmopletePlaces = (value) => {
+    return places
+      .filter((place) => place.toLowerCase().startsWith(value.toLowerCase()))
       .sort();
-    setAutoCompletePlaceState(() => filteredAndSortedPlaces);
   };
 
-  const onArrowKeyClick = (key: string) => {
+  const handleChangeText = (value: string) => {
+    setInputState(() => value);
+    setAutoCompletePlaceState(() => updateAutocmopletePlaces(value));
+  };
 
-    if (key === 'ArrowDown' && selected < autoCompletePlaceState.length - 1) {
-      setSelected((prev) => prev + 1);
+  const handleKeyDownArrows = (key: string) => {
+    if (selectedState > autoCompletePlaceState.length) {
+      setSelectedState(() => 0);
+    }
+
+    if (
+      key === 'ArrowDown' &&
+      selectedState < autoCompletePlaceState.length - 1
+    ) {
+      setSelectedState((prev) => prev + 1);
       paragraphRef.current.scrollIntoView({
         behavior: 'smooth',
         block: 'start',
       });
-      setInputState(() => autoCompletePlaceState[selected + 1]);
     }
-    if (key === 'ArrowUp' && selected > 0) {
-      setSelected((prev) => prev - 1);
+    if (key === 'ArrowUp' && selectedState > 0) {
+      setSelectedState((prev) => prev - 1);
       paragraphRef.current.scrollIntoView({
         behavior: 'smooth',
         block: 'end',
       });
-      setInputState(() => autoCompletePlaceState[selected - 1]);
+    }
+    if (key === 'Enter') {
+      setInputState(() => autoCompletePlaceState[selectedState]);
     }
   };
 
-  const onPlaceClick = (place: string) => {
+  const handleClickPlace = (place: string) => {
     setInputState(() => place);
     setAutoCompleteVisibleState(false);
   };
@@ -77,17 +82,17 @@ const CityForm: React.FC<IProps> = (props) => {
           value={inputState}
           className={classes['container__input']}
           placeholder="Enter Your City"
-          onChange={(e) => textHandler(e)}
-          onKeyDown={(e) => onArrowKeyClick(e.key)}
+          onChange={(e) => handleChangeText(e.target.value)}
+          onKeyDown={(e) => handleKeyDownArrows(e.key)}
           onFocus={() => setAutoCompleteVisibleState(true)}
-          onBlur={(e) => onBlurHandler(e)}
+          onBlur={(e) => handleBlur(e)}
         />
         <button type={'submit'} className={classes['container__button']}>
           Add City
         </button>
         <div
           tabIndex={0}
-          onBlur={(e) => onBlurHandler(e)}
+          onBlur={(e) => handleBlur(e)}
           className={classes['container__autoCompleteContainer']}
         >
           {autoCompleteVisibleState &&
@@ -95,11 +100,11 @@ const CityForm: React.FC<IProps> = (props) => {
               <li
                 key={index}
                 className={`${
-                  classes[selected === index ? 'container__place' : '']
+                  classes[selectedState === index ? 'container__place' : '']
                 } 
                  `}
-                onClick={() => onPlaceClick(place)}
-                ref={selected === index ? paragraphRef : null}
+                onClick={() => handleClickPlace(place)}
+                ref={selectedState === index ? paragraphRef : null}
               >
                 {place}
               </li>
@@ -110,4 +115,6 @@ const CityForm: React.FC<IProps> = (props) => {
   );
 };
 
-export default CityForm;
+const MemoizedCityForm = React.memo(CityForm);
+
+export default MemoizedCityForm;

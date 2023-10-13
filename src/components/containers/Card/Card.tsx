@@ -7,20 +7,23 @@ import Modal from '../../ui/Modal/Modal';
 
 import classes from './Card.module.scss';
 import { ICardsArray } from '../../../interfaces/card';
+import React from 'react';
 
 interface IProps {
   readonly city: ICardsArray;
 }
 
 const Card: React.FC<IProps> = (props) => {
-  const [time, setTime] = useState<string>();
-  const [isToolTipShow, setIsIsToolTipShow] = useState(false);
-  const [isShowingModal, toggleModal] = useModal();
-  const isNight = time ? +time.slice(0, 2) > 23 || +time.slice(0, 2) < 8 : true;
+  const [timeState, setTimeState] = useState<string>();
+  const [isToolTipShowState, setIsIsToolTipShowState] = useState(false);
+  const [isShowingModalState, toggleModalState] = useModal();
+  const isNight = timeState
+    ? +timeState.slice(0, 2) > 23 || +timeState.slice(0, 2) < 8
+    : true;
 
-  const toolTipHandler = (isActive: boolean) => {
+  const handleToolTip = (isActive: boolean) => {
     if (props.city.coordinates.name.length > 7) {
-      setIsIsToolTipShow(() => isActive);
+      setIsIsToolTipShowState(() => isActive);
     }
   };
 
@@ -45,7 +48,7 @@ const Card: React.FC<IProps> = (props) => {
       : 'Very Very Cold';
 
   useEffect(() => {
-    setInterval(() => {
+    const interval = setInterval(() => {
       const dateObject = new Date();
       const options: Record<string, string> = {
         timeZone: props.city[2] as string,
@@ -55,36 +58,38 @@ const Card: React.FC<IProps> = (props) => {
         hourCycle: 'h24',
       };
       const formattedDate = dateObject.toLocaleString('en-US', options);
-      setTime(() => formattedDate);
+      setTimeState(() => formattedDate);
     }, 1000);
+
+    return () => clearInterval(interval);
   });
 
   return (
     <>
-      <Modal show={isShowingModal} onCloseButtonClick={toggleModal}>
+      <Modal isShow={isShowingModalState} onClickCloseButton={toggleModalState}>
         <WeatherHistory city={props.city} />
       </Modal>
       <div
-        onClick={toggleModal}
+        onClick={toggleModalState}
         style={
           !isNight
             ? {
                 backgroundColor: `hsl(240, 100%,${
-                  50 - +time.slice(0, 2) * 2
+                  50 - +timeState.slice(0, 2) * 2
                 }%)`,
               }
             : { backgroundColor: `black` }
         }
         className={classes['container']}
       >
-        {isToolTipShow && (
+        {isToolTipShowState && (
           <span className={classes['container__tooltip']}>
             {props.city.coordinates.name}
           </span>
         )}
         <p
-          onMouseEnter={() => toolTipHandler(true)}
-          onMouseLeave={() => toolTipHandler(false)}
+          onMouseEnter={() => handleToolTip(true)}
+          onMouseLeave={() => handleToolTip(false)}
           className={classes['container__title']}
         >
           {props.city.coordinates.name}
@@ -95,10 +100,12 @@ const Card: React.FC<IProps> = (props) => {
         </span>
         <Svg name={icon} className={classes['container__svg']} />
         <p className={classes['container__description']}>{description}</p>
-        <p className={classes['container__time']}>{time}</p>
+        <p className={classes['container__time']}>{timeState}</p>
       </div>
     </>
   );
 };
 
-export default Card;
+const MemoizedCard = React.memo(Card);
+
+export default MemoizedCard;
