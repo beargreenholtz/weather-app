@@ -10,26 +10,26 @@ interface IProps {
 }
 
 const WeatherHistory: React.FC<IProps> = (props) => {
-  const [selectedTimeState, setSelectedTimeState] = useState('monthly');
+  const [selectedTimeState, setSelectedTimeState] = useState('');
   const halfMonthDegreeArray = props.city.cityData.dates.slice(0, 14);
   const halfMonthDatesArray = props.city.cityData.dates.slice(0, 14);
   const monthDegreesArray = props.city.cityData.temperature;
+
+  const optionSelect = ['daily', 'twoweeks', 'monthly'] as const;
 
   return (
     <div>
       <div>Weather History Data for {props.city.coordinates.name}:</div>
       <select onChange={(e) => setSelectedTimeState(e.target.value)}>
-        <option value="monthly">Monthly</option>
-        <option value="daily">Daily</option>
-        <option value="twoweeks">Two Weeks</option>
+        {optionSelect.map((value) => (
+          <option key={value} label={value} value={value} />
+        ))}
       </select>
-      {selectedTimeState === 'daily' && (
+      {selectedTimeState === optionSelect[0] && (
         <p>Today - {props.city.cityData.dates[0]}</p>
       )}
-      {selectedTimeState === 'monthly' && (
-        <p>The monthly average is - {monthAverageCelcius(monthDegreesArray)}</p>
-      )}
-      {selectedTimeState === 'twoweeks' && (
+
+      {selectedTimeState === optionSelect[1] && (
         <div>
           <h2>Last 2 weeks</h2>
           <div className={classes['list']}>
@@ -47,6 +47,9 @@ const WeatherHistory: React.FC<IProps> = (props) => {
             </div>
           </div>
         </div>
+      )}
+      {selectedTimeState === optionSelect[2] && (
+        <p>The monthly average is - {monthAverageCelcius(monthDegreesArray)}</p>
       )}
     </div>
   );

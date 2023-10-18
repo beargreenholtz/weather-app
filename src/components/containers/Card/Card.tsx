@@ -26,7 +26,7 @@ const Card: React.FC<IProps> = (props) => {
     }
   };
 
-  const temperatureToday = props.city[1];
+  const temperatureToday = props.city.cityData.temperature[0];
 
   const icon =
     temperatureToday > 25
@@ -50,7 +50,7 @@ const Card: React.FC<IProps> = (props) => {
     const interval = setInterval(() => {
       const dateObject = new Date();
       const options: Record<string, string> = {
-        timeZone: props.city[2] as string,
+        timeZone: props.city[2],
         hour: 'numeric',
         minute: 'numeric',
         second: 'numeric',
