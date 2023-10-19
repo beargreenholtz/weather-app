@@ -1,4 +1,4 @@
-import type { IClasses } from '../interfaces/component';
+import type { IClasses } from '../types/component';
 
 /**
  * The function returns the mapped class names list

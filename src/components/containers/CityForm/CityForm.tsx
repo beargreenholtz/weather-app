@@ -4,12 +4,12 @@ import places from '../../../utils/places';
 
 import classes from './CityForm.module.scss';
 
-interface IProps {
-  readonly addCity: (string) => void;
+interface TProps {
+  readonly addCity: (arg0: string) => void;
 }
 
-const CityForm: React.FC<IProps> = (props) => {
-  const paragraphRef = useRef(null);
+const CityForm = (props: TProps) => {
+  const paragraphRef = useRef<HTMLLIElement | null>(null);
 
   const [inputState, setInputState] = useState('');
   const [autoCompleteVisibleState, setAutoCompleteVisibleState] =
@@ -30,7 +30,7 @@ const CityForm: React.FC<IProps> = (props) => {
     setInputState(() => '');
   };
 
-  const updateAutocmopletePlaces = (value) => {
+  const updateAutocmopletePlaces = (value: string) => {
     return places
       .filter((place) => place.toLowerCase().startsWith(value.toLowerCase()))
       .sort();

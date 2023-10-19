@@ -1,15 +1,15 @@
 import React from 'react';
 
 import Card from '../Card/Card';
-import { ICard } from '../../../interfaces/card';
+import { TCard } from '../../../types/card';
 
 import classes from './CardContainer.module.scss';
 
-interface IProps {
-  readonly cards: ICard[];
+interface TProps {
+  readonly cards: TCard[];
 }
 
-const CardContainer: React.FC<IProps> = (props) => {
+const CardContainer = (props: TProps) => {
   return (
     <button className={classes['container']}>
       {props.cards.map((value, index) => {

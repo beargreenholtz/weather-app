@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-import { ICard } from '../../../interfaces/card';
+import { TCard, TCoordinates } from '../../../types/card';
 import { getPastDate } from '../../../utils/getPastDate';
 import CardContainer from '../CardsContainer/CardContainer';
 import CityForm from '../CityForm/CityForm';
 
 const Main = () => {
-  const [cardsState, setCardsState] = useState<ICard[]>([]);
+  const [cardsState, setCardsState] = useState<TCard[]>([]);
 
-  const getCoordinates = async (city) => {
+  const getCoordinates = async (city: string) => {
     const response = await axios
       .get(
         `https://geocoding-api.open-meteo.com/v1/search?name=${city}&count=10&language=en&format=json`
@@ -19,7 +19,7 @@ const Main = () => {
     return response;
   };
 
-  const getCityData = async (coordinates) => {
+  const getCityData = async (coordinates: TCoordinates) => {
     const endDate = getPastDate(10);
     const startDate = getPastDate(40);
 

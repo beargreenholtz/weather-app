@@ -8,7 +8,6 @@
 		"allowSyntheticDefaultImports": true,
 		"esModuleInterop": true,
 		"paths": {
-			"@/interfaces/*": ["src/interfaces/*"],
 			"@/ui/*": ["src/components/ui/*"],
 			"@/containers/*": ["src/components/containers/*"],
 			"@/layout/*": ["src/components/layout/*"],

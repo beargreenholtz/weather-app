@@ -1,35 +1,39 @@
 import React, { useState } from 'react';
 
-import { ICard } from '@/interfaces/card';
+import { TCard } from '@/types/card';
 import { monthAverageCelcius } from '../../../utils/monthCaculateDegree';
 
 import classes from './WeatherHistory.module.scss';
 
-interface IProps {
-  readonly city: ICard;
-}
+type TProps = {
+  readonly city: TCard;
+};
 
-const WeatherHistory: React.FC<IProps> = (props) => {
+const WeatherHistory = (props: TProps) => {
   const [selectedTimeState, setSelectedTimeState] = useState('');
   const halfMonthDegreeArray = props.city.cityData.dates.slice(0, 14);
   const halfMonthDatesArray = props.city.cityData.dates.slice(0, 14);
   const monthDegreesArray = props.city.cityData.temperature;
 
-  const optionSelect = ['daily', 'twoweeks', 'monthly'] as const;
+  const optionSelect = {
+    daily: 'daily',
+    twoweek: 'twoweeks',
+    monthly: 'monthly',
+  } as const;
 
   return (
     <div>
       <div>Weather History Data for {props.city.coordinates.name}:</div>
       <select onChange={(e) => setSelectedTimeState(e.target.value)}>
-        {optionSelect.map((value) => (
+        {Object.values(optionSelect).map((value) => (
           <option key={value} label={value} value={value} />
         ))}
       </select>
-      {selectedTimeState === optionSelect[0] && (
+      {selectedTimeState === optionSelect.daily && (
         <p>Today - {props.city.cityData.dates[0]}</p>
       )}
 
-      {selectedTimeState === optionSelect[1] && (
+      {selectedTimeState === optionSelect.twoweek && (
         <div>
           <h2>Last 2 weeks</h2>
           <div className={classes['list']}>
@@ -48,7 +52,7 @@ const WeatherHistory: React.FC<IProps> = (props) => {
           </div>
         </div>
       )}
-      {selectedTimeState === optionSelect[2] && (
+      {selectedTimeState === optionSelect.monthly && (
         <p>The monthly average is - {monthAverageCelcius(monthDegreesArray)}</p>
       )}
     </div>

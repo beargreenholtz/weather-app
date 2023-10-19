@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ICard } from '../../../interfaces/card';
+import { TCard } from '../../../types/card';
 
 import WeatherHistory from '../WeatherHistory/WeatherHistory';
 import useModal from '../../../utils/useModal';
@@ -8,14 +8,15 @@ import Modal from '../../ui/Modal/Modal';
 
 import classes from './Card.module.scss';
 
-interface IProps {
-  readonly city: ICard;
-}
+type TProps = {
+  readonly city: TCard;
+};
 
-const Card: React.FC<IProps> = (props) => {
+const Card = (props: TProps) => {
   const [timeState, setTimeState] = useState<string>();
   const [isToolTipShowState, setIsIsToolTipShowState] = useState(false);
   const [isShowingModalState, toggleModalState] = useModal();
+
   const isNight = timeState
     ? +timeState.slice(0, 2) > 23 || +timeState.slice(0, 2) < 8
     : true;
